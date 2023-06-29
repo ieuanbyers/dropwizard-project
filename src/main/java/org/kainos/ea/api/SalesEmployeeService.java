@@ -1,12 +1,8 @@
 package org.kainos.ea.api;
 
-import org.kainos.ea.cli.Employee;
-import org.kainos.ea.cli.EmployeeRequest;
+import org.kainos.ea.cli.SalesEmployee;
 import org.kainos.ea.cli.SalesEmployeeRequest;
-import org.kainos.ea.client.EmployeeDoesNotExistException;
-import org.kainos.ea.client.FailedToCreateEmployeeException;
-import org.kainos.ea.client.FailedToUpdateEmployeeException;
-import org.kainos.ea.client.InvalidEmployeeException;
+import org.kainos.ea.client.*;
 import org.kainos.ea.core.SalesEmployeeValidator;
 import org.kainos.ea.db.SalesEmployeeDao;
 
@@ -28,12 +24,6 @@ public class SalesEmployeeService {
                 throw new InvalidEmployeeException(validation);
             }
 
-//            Employee employeeToUpdate = salesEmployeeDao.getEmployeeById(id);
-//
-//            if (employeeToUpdate == null){
-//                throw new EmployeeDoesNotExistException();
-//            }
-
             int id = salesEmployeeDao.createSalesEmployee(employee);
 
             if (id < 1) {
@@ -46,11 +36,17 @@ public class SalesEmployeeService {
         }
     }
 
-    public void updateSalesEmployee(int id, SalesEmployeeRequest employee) throws InvalidEmployeeException, FailedToUpdateEmployeeException {
+    public void updateSalesEmployee(int id, SalesEmployeeRequest employee) throws InvalidEmployeeException, FailedToUpdateEmployeeException, EmployeeDoesNotExistException {
         try{
             String validation = salesEmployeeValidator.isValidEmployee(employee);
             if (validation != null){
                 throw new InvalidEmployeeException(validation);
+            }
+
+            SalesEmployee employeeToUpdate = salesEmployeeDao.getSalesEmployeeByID(id);
+
+            if (employeeToUpdate == null){
+                throw new EmployeeDoesNotExistException();
             }
 
             salesEmployeeDao.updateSalesEmployee(id, employee);
@@ -58,6 +54,21 @@ public class SalesEmployeeService {
             System.err.println(e.getMessage());
 
             throw new FailedToUpdateEmployeeException();
+        }
+    }
+
+    public SalesEmployee getSalesEmployeeByID(int id) throws FailedToGetEmployeeException, EmployeeDoesNotExistException {
+
+        try {
+            SalesEmployee employee = salesEmployeeDao.getSalesEmployeeByID(id);
+
+            if (employee == null) {
+                throw new EmployeeDoesNotExistException();
+            }
+            return employee;
+        } catch (SQLException e){
+            System.err.println(e.getMessage());
+            throw new FailedToGetEmployeeException();
         }
     }
 }

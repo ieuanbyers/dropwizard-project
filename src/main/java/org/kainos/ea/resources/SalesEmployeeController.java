@@ -4,10 +4,7 @@ import io.swagger.annotations.Api;
 import org.kainos.ea.api.SalesEmployeeService;
 import org.kainos.ea.cli.EmployeeRequest;
 import org.kainos.ea.cli.SalesEmployeeRequest;
-import org.kainos.ea.client.EmployeeDoesNotExistException;
-import org.kainos.ea.client.FailedToCreateEmployeeException;
-import org.kainos.ea.client.FailedToUpdateEmployeeException;
-import org.kainos.ea.client.InvalidEmployeeException;
+import org.kainos.ea.client.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -47,10 +44,25 @@ public class SalesEmployeeController {
             System.err.println(e.getMessage());
 
             return Response.serverError().entity(e.getMessage()).build();
-        } catch (InvalidEmployeeException e){
+        } catch (InvalidEmployeeException | EmployeeDoesNotExistException e){
             System.err.println(e.getMessage());
 
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
+    }
+
+    @GET
+    @Path("/salesemployee/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDeliveryEmployeeByID(@PathParam("id") int id){
+
+        try {
+            return Response.ok(salesEmployeeService.getSalesEmployeeByID(id)).build();
+        } catch (FailedToGetEmployeeException e) {
+            System.err.println(e.getMessage());
+            return Response.serverError().build();
+        } catch (EmployeeDoesNotExistException e) {
+            System.err.println(e.getMessage());
+            return Response.status(Response.Status.BAD_REQUEST).build();        }
     }
 }
