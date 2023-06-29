@@ -6,6 +6,7 @@ import org.kainos.ea.cli.EmployeeRequest;
 import org.kainos.ea.client.EmployeeDoesNotExistException;
 import org.kainos.ea.client.FailedToCreateEmployeeException;
 import org.kainos.ea.client.FailedToGetEmployeeException;
+import org.kainos.ea.client.FailedToUpdateEmployeeException;
 import org.kainos.ea.client.InvalidEmployeeException;
 
 import javax.ws.rs.*;
@@ -60,6 +61,22 @@ public class EmployeeController {
         }
     }
 
+    @PUT
+    @Path("/employees/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateDeliveryEmployees(@PathParam("id") int id, EmployeeRequest employee){
+        try{
+            employeeService.updateDeliveryEmployee(id, employee);
 
+            return Response.ok().build();
+        } catch (FailedToUpdateEmployeeException e){
+            System.err.println(e.getMessage());
 
+            return Response.serverError().entity(e.getMessage()).build();
+        } catch (InvalidEmployeeException | EmployeeDoesNotExistException e){
+            System.err.println(e.getMessage());
+
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+    }
 }
