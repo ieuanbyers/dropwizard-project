@@ -60,7 +60,7 @@ public class EmployeeDao {
 
         ResultSet rs = st.executeQuery(
                 "SELECT (`Name`,Salary,BankAccountNo,NatInsuranceNo) FROM `DeliveryEmployee`"
-                        + "WHERE DeliveryEmployeeID = " + id);
+                        + " WHERE DeliveryEmployeeID = " + id);
 
         while (rs.next()) {
             return new EmployeeRequest(
