@@ -4,6 +4,7 @@ import org.kainos.ea.cli.Employee;
 import org.kainos.ea.cli.EmployeeRequest;
 import org.kainos.ea.client.EmployeeDoesNotExistException;
 import org.kainos.ea.client.FailedToCreateEmployeeException;
+import org.kainos.ea.client.FailedToUpdateEmployeeException;
 import org.kainos.ea.client.FailedToGetEmployeeException;
 import org.kainos.ea.client.InvalidEmployeeException;
 import org.kainos.ea.core.EmployeeValidator;
@@ -40,7 +41,37 @@ public class EmployeeService {
         }
     }
 
-        public EmployeeRequest getEmployeeByID(int id) throws FailedToGetEmployeeException, EmployeeDoesNotExistException {
+    public void updateDeliveryEmployee(int id, EmployeeRequest employee) throws InvalidEmployeeException, EmployeeDoesNotExistException, FailedToUpdateEmployeeException {
+        try{
+            String validation = employeeValidator.isValidEmployee(employee);
+            if (validation != null){
+                throw new InvalidEmployeeException(validation);
+            }
+
+            employeeDao.updateDeliveryEmployee(id, employee);
+        } catch (SQLException e){
+            System.err.println(e.getMessage());
+
+            throw new FailedToUpdateEmployeeException();
+        }
+    }
+          
+          public EmployeeRequest getEmployeeByID(int id) throws FailedToGetEmployeeException, EmployeeDoesNotExistException {
+            try {
+                EmployeeRequest employeeRequest = employeeDao.getEmployeeByID(id);
+
+                if (employeeRequest == null) {
+                    throw new EmployeeDoesNotExistException();
+                }
+                return employeeRequest;
+            } catch (SQLException e){
+                System.err.println(e.getMessage());
+                throw new FailedToGetEmployeeException();
+            }
+        }
+                  
+  
+    public Employee getEmployeeByID(int id) throws FailedToGetEmployeeException, InvalidEmployeeException {
             try {
                 EmployeeRequest employeeRequest = employeeDao.getEmployeeByID(id);
 
@@ -64,12 +95,5 @@ public class EmployeeService {
         employeeRequestList.stream().forEach(System.out::println);
         return employeeRequestList;
     }
-
-
-
-
-
-
-
 
 }
