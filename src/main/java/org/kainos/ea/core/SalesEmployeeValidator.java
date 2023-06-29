@@ -6,6 +6,7 @@ import org.kainos.ea.core.EmployeeValidator;
 
 public class SalesEmployeeValidator extends EmployeeValidator{
 
+    @Override
     public String isValidEmployee(SalesEmployeeRequest employee)  {
 
         if (employee.getCommissionRate() > 0 && employee.getCommissionRate() < 1) {
