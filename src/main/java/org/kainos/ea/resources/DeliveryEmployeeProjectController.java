@@ -11,7 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-@Api("Dropwizard Project - Employee API")
+@Api("Dropwizard Project - Project API")
 @Path("/api")
 public class DeliveryEmployeeProjectController {
     private DeliveryEmployeeProjectService deliveryEmployeeProjectService = new DeliveryEmployeeProjectService();

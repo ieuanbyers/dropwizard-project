@@ -88,7 +88,7 @@ public class EmployeeController {
 
 
     @DELETE
-    @Path("/employees/{id}")
+    @Path("/deliveryemployee/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteEmployee(@PathParam("id") int id){
         try{
