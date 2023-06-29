@@ -2,10 +2,14 @@ package org.kainos.ea.db;
 
 import org.kainos.ea.cli.Employee;
 import org.kainos.ea.cli.EmployeeRequest;
-
 import java.sql.*;
-
 import static org.kainos.ea.db.DatabaseConnector.getConnection;
+import org.kainos.ea.cli.EmployeeRequest;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class EmployeeDao {
     public int createDeliveryEmployee(EmployeeRequest employee) throws SQLException{
