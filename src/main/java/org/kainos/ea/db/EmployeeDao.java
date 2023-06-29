@@ -6,7 +6,12 @@ import java.sql.*;
 import static org.kainos.ea.db.DatabaseConnector.getConnection;
 import org.kainos.ea.cli.EmployeeRequest;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmployeeDao {
     public int createDeliveryEmployee(EmployeeRequest employee) throws SQLException{
@@ -31,7 +36,6 @@ public class EmployeeDao {
 
         return -1;
     }
-
 
     public void updateDeliveryEmployee(int id, EmployeeRequest employee) throws SQLException{
         Connection c = DatabaseConnector.getConnection();
@@ -60,8 +64,7 @@ public class EmployeeDao {
 
 
         while (rs.next()) {
-            return new Employee(
-                    rs.getInt("DeliveryEmployeeID"),
+            return new EmployeeRequest(
                     rs.getString("Name"),
                     rs.getFloat("Salary"),
                     rs.getString("BankAccountNo"),
@@ -72,5 +75,26 @@ public class EmployeeDao {
         return null;
     }
 
+
+    public List<EmployeeRequest> getAllEmployees() throws SQLException {
+        Connection c = getConnection();
+        Statement st = c.createStatement();
+
+        ResultSet rs = st.executeQuery("SELECT (Name,Salary,BankAccountNo,NatInsuranceNo) FROM DeliveryEmployee;");
+
+        List<EmployeeRequest> employeeList = new ArrayList<>();
+
+        while (rs.next()) {
+            EmployeeRequest employee = new EmployeeRequest(
+                    rs.getString("Name"),
+                    rs.getFloat("Salary"),
+                    rs.getString("BankAccountNo"),
+                    rs.getString("NatInsuranceNo")
+            );
+
+            employeeList.add(employee);
+        }
+        return employeeList;
+    }
 
 }
