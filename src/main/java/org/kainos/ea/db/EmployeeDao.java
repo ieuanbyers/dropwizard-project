@@ -1,14 +1,12 @@
 package org.kainos.ea.db;
 
-import org.kainos.ea.cli.Employee;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class EmployeeDao {
-    public int createDeliveryEmployee(Employee employee) throws SQLException{
+    public int createDeliveryEmployee(EmployeeRequest employee) throws SQLException{
         Connection c = DatabaseConnector.getConnection();
 
         String insertStatement = "INSERT INTO DeliveryEmployee(Name, Salary, BankAccountNo, NatInsuranceNo) VALUES (?, ?, ?, ?);";
