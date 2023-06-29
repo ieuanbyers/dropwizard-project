@@ -5,7 +5,7 @@ INSERT INTO `DeliveryEmployee`(`Name`,Salary, BankAccountNo, NatInsuranceNo) VAL
 
 
 -- 2. As a member of the HR team I want to be able to update a delivery employee. I should be able to update a name, salary, bank account number
-UPDATE `DeliveryEmployee` SET `Name` = "?", `Salary` = "?", BankAccountNo = ?, NatInsuranceNo = ? WHERE DeliveryEmployeeID = ?;
+UPDATE `DeliveryEmployee` SET `Name` = ?, `Salary` = ?, BankAccountNo = ?, NatInsuranceNo = ? WHERE DeliveryEmployeeID = ?;
 
 
 -- 	3. As a member of the HR team I want to be able to view a delivery employee. I should be able to view a name, salary, bank account number and national insurance number
@@ -37,7 +37,7 @@ INSERT INTO `SalesEmployee` (`Name`, Salary, BankAccountNo, NatInsuranceNo, Comm
 
 -- 	9. As a member of the HR team I want to be able to update a sales employee. 
 -- I should be able to update a name, salary, bank account number and commission rate
-UPDATE `SalesEmployee` SET `Name` = "?", Salary = "?", BankAccountNo = ?, NatInsuranceNo = ?, CommissionRate = ? WHERE SalesEmployeeID = ?;
+UPDATE `SalesEmployee` SET `Name` = ?, Salary = ?, BankAccountNo = ?, NatInsuranceNo = ?, CommissionRate = ? WHERE SalesEmployeeID = ?;
 
 
 -- 	10. As a member of the HR team I want to be able to view a sales employee. 
