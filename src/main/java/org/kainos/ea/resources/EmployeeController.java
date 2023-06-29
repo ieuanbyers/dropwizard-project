@@ -3,17 +3,21 @@ package org.kainos.ea.resources;
 import io.swagger.annotations.Api;
 import org.kainos.ea.api.EmployeeService;
 import org.kainos.ea.cli.EmployeeRequest;
+
+import org.kainos.ea.client.*;
+
 import org.kainos.ea.client.EmployeeDoesNotExistException;
 import org.kainos.ea.client.FailedToCreateEmployeeException;
 import org.kainos.ea.client.FailedToGetEmployeeException;
 import org.kainos.ea.client.FailedToUpdateEmployeeException;
 import org.kainos.ea.client.InvalidEmployeeException;
 
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Api("Dropwizard Project - Employee API")
+@Api("Dropwizard Project - Delivery Employee API")
 @Path("/api")
 public class EmployeeController {
     private EmployeeService employeeService = new EmployeeService();
@@ -62,9 +66,11 @@ public class EmployeeController {
     }
 
     @PUT
-    @Path("/employees/{id}")
+    @Path("/deliveryemployee/{id}")
     @Produces(MediaType.APPLICATION_JSON)
+
     public Response updateDeliveryEmployees(@PathParam("id") int id, EmployeeRequest employee){
+
         try{
             employeeService.updateDeliveryEmployee(id, employee);
 
@@ -81,5 +87,23 @@ public class EmployeeController {
     }
 
 
+    @DELETE
+    @Path("/employees/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteEmployee(@PathParam("id") int id){
+        try{
+            employeeService.deleteEmployee(id);
+
+            return Response.ok().build();
+        } catch (EmployeeDoesNotExistException e){
+            System.err.println(e.getMessage());
+
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        } catch (FailedToDeleteEmployeeException e){
+            System.err.println(e.getMessage());
+
+            return Response.serverError().build();
+        }
+    }
 
 }
