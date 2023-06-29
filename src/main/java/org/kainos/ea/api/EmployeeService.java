@@ -6,6 +6,7 @@ import org.kainos.ea.client.*;
 import org.kainos.ea.core.EmployeeValidator;
 import org.kainos.ea.db.EmployeeDao;
 import java.sql.SQLException;
+import java.util.List;
 
 
 public class EmployeeService {
@@ -39,16 +40,9 @@ public class EmployeeService {
     public void updateDeliveryEmployee(int id, EmployeeRequest employee) throws InvalidEmployeeException, EmployeeDoesNotExistException, FailedToUpdateEmployeeException {
         try{
             String validation = employeeValidator.isValidEmployee(employee);
-
             if (validation != null){
                 throw new InvalidEmployeeException(validation);
             }
-
-//            Employee employeeToUpdate = employeeDao.getEmployeeById(id);
-//
-//            if (employeeToUpdate == null){
-//                throw new EmployeeDoesNotExistException();
-//            }
 
             employeeDao.updateDeliveryEmployee(id, employee);
         } catch (SQLException e){
@@ -57,8 +51,10 @@ public class EmployeeService {
             throw new FailedToUpdateEmployeeException();
         }
     }
-  
-    public EmployeeRequest getEmployeeByID(int id) throws FailedToGetEmployeeException, EmployeeDoesNotExistException {
+
+          
+          public EmployeeRequest getEmployeeByID(int id) throws FailedToGetEmployeeException, EmployeeDoesNotExistException {
+
             try {
                 EmployeeRequest employeeRequest = employeeDao.getEmployeeByID(id);
 
@@ -70,7 +66,9 @@ public class EmployeeService {
                 System.err.println(e.getMessage());
                 throw new FailedToGetEmployeeException();
             }
-    }
+        }
+                
+
 
     public void deleteEmployee(int id) throws EmployeeDoesNotExistException, FailedToDeleteEmployeeException {
         try {
@@ -86,6 +84,18 @@ public class EmployeeService {
 
             throw new FailedToDeleteEmployeeException();
         }
+    }
+
+
+    public List<EmployeeRequest> getAllEmployees() throws FailedToCreateEmployeeException {
+        List<EmployeeRequest> employeeRequestList = null;
+        try {
+            employeeRequestList = employeeDao.getAllEmployees();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        employeeRequestList.stream().forEach(System.out::println);
+        return employeeRequestList;
     }
 
 
