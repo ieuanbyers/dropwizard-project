@@ -1,7 +1,7 @@
 package org.kainos.ea.db;
 
-import org.kainos.ea.cli.Employee;
-import org.kainos.ea.cli.EmployeeRequest;
+import org.kainos.ea.cli.*;
+
 import java.sql.*;
 import static org.kainos.ea.db.DatabaseConnector.getConnection;
 import org.kainos.ea.cli.EmployeeRequest;
@@ -54,7 +54,7 @@ public class EmployeeDao {
 
     }
 
-    public Employee getEmployeeByID(int id) throws SQLException {
+    public EmployeeRequest getEmployeeByID(int id) throws SQLException {
         Connection c = getConnection();
         Statement st = c.createStatement();
 

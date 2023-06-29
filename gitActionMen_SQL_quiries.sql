@@ -26,9 +26,7 @@ INSERT INTO `DeliveryEmployeeProject` (DeliveryEmployeeID, ProjectID, StartDate,
 
 -- 7. As a member of the Management team I want to be able to remove a delivery employee from a project.
 --  A record should be retained to show that person worked on that project at some point
-DELETE FROM `Project` WHERE DeliveryEmployeeID = ?;
-SELECT DeliveryEmployee.DeliveryEmployeeID FROM `deliveryEmployeeProject` WHERE id = ?;
-
+UPDATE DeliveryEmployeeProject SET EndDate = NOW() WHERE DeliveryEmployeeID = ?;
 
 -- 	8. As a member of the HR team I want to be able to create a new sales employee. 
 -- I should be able to store a name, salary, bank account number, national insurance number and commission rate
