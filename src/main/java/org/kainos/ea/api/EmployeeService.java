@@ -2,11 +2,7 @@ package org.kainos.ea.api;
 
 import org.kainos.ea.cli.Employee;
 import org.kainos.ea.cli.EmployeeRequest;
-import org.kainos.ea.client.EmployeeDoesNotExistException;
-import org.kainos.ea.client.FailedToCreateEmployeeException;
-import org.kainos.ea.client.FailedToUpdateEmployeeException;
-import org.kainos.ea.client.FailedToGetEmployeeException;
-import org.kainos.ea.client.InvalidEmployeeException;
+import org.kainos.ea.client.*;
 import org.kainos.ea.core.EmployeeValidator;
 import org.kainos.ea.db.EmployeeDao;
 import java.sql.SQLException;
@@ -62,18 +58,34 @@ public class EmployeeService {
         }
     }
   
-    public Employee getEmployeeByID(int id) throws FailedToGetEmployeeException, InvalidEmployeeException {
+    public EmployeeRequest getEmployeeByID(int id) throws FailedToGetEmployeeException, EmployeeDoesNotExistException {
             try {
-                Employee employee = employeeDao.getEmployeeByID(id);
+                EmployeeRequest employeeRequest = employeeDao.getEmployeeByID(id);
 
-                if (employee == null) {
-                    throw new InvalidEmployeeException();
+                if (employeeRequest == null) {
+                    throw new EmployeeDoesNotExistException();
                 }
-                return employee;
+                return employeeRequest;
             } catch (SQLException e){
                 System.err.println(e.getMessage());
                 throw new FailedToGetEmployeeException();
             }
+    }
+
+    public void deleteEmployee(int id) throws EmployeeDoesNotExistException, FailedToDeleteEmployeeException {
+        try {
+            EmployeeRequest employeeToDelete = employeeDao.getEmployeeByID(id);
+
+            if(employeeToDelete == null) {
+                throw new EmployeeDoesNotExistException();
+            }
+
+            employeeDao.deleteDeliveryEmployee(id);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+
+            throw new FailedToDeleteEmployeeException();
+        }
     }
 
 

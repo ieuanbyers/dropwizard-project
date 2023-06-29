@@ -50,18 +50,16 @@ public class EmployeeDao {
 
     }
 
-    public Employee getEmployeeByID(int id) throws SQLException {
+    public EmployeeRequest getEmployeeByID(int id) throws SQLException {
         Connection c = getConnection();
         Statement st = c.createStatement();
 
         ResultSet rs = st.executeQuery(
                 "SELECT (`Name`,Salary,BankAccountNo,NatInsuranceNo) FROM `DeliveryEmployee`"
-                + "WHERE DeliveryEmployeeID = "+id);
-
+                        + "WHERE DeliveryEmployeeID = " + id);
 
         while (rs.next()) {
-            return new Employee(
-                    rs.getInt("DeliveryEmployeeID"),
+            return new EmployeeRequest(
                     rs.getString("Name"),
                     rs.getFloat("Salary"),
                     rs.getString("BankAccountNo"),
@@ -70,6 +68,18 @@ public class EmployeeDao {
 
         }
         return null;
+    }
+
+    public void deleteDeliveryEmployee(int id) throws SQLException {
+        Connection c = DatabaseConnector.getConnection();
+
+        String deleteStatement = "DELETE FROM `DeliveryEmployee` WHERE DeliveryEmployeeID = ?;";
+
+        PreparedStatement st = c.prepareStatement(deleteStatement);
+
+        st.setInt(1, id);
+
+        st.executeUpdate();
     }
 
 
