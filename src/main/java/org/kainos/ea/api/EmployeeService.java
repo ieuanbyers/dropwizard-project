@@ -44,6 +44,12 @@ public class EmployeeService {
                 throw new InvalidEmployeeException(validation);
             }
 
+            Employee employeeToUpdate = employeeDao.getEmployeeByID(id);
+
+            if (employeeToUpdate == null){
+                throw new EmployeeDoesNotExistException();
+            }
+
             employeeDao.updateDeliveryEmployee(id, employee);
         } catch (SQLException e){
             System.err.println(e.getMessage());
@@ -53,15 +59,15 @@ public class EmployeeService {
     }
 
           
-          public EmployeeRequest getEmployeeByID(int id) throws FailedToGetEmployeeException, EmployeeDoesNotExistException {
+          public Employee getEmployeeByID(int id) throws FailedToGetEmployeeException, EmployeeDoesNotExistException {
 
             try {
-                EmployeeRequest employeeRequest = employeeDao.getEmployeeByID(id);
+                Employee employee = employeeDao.getEmployeeByID(id);
 
-                if (employeeRequest == null) {
+                if (employee == null) {
                     throw new EmployeeDoesNotExistException();
                 }
-                return employeeRequest;
+                return employee;
             } catch (SQLException e){
                 System.err.println(e.getMessage());
                 throw new FailedToGetEmployeeException();

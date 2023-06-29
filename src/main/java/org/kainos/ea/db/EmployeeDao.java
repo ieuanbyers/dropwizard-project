@@ -54,16 +54,17 @@ public class EmployeeDao {
 
     }
 
-    public EmployeeRequest getEmployeeByID(int id) throws SQLException {
+    public Employee getEmployeeByID(int id) throws SQLException {
         Connection c = getConnection();
         Statement st = c.createStatement();
 
-        ResultSet rs = st.executeQuery(
-                "SELECT (`Name`,Salary,BankAccountNo,NatInsuranceNo) FROM `DeliveryEmployee`"
+        ResultSet rs = st.executeQuery("SELECT (`Name`,Salary,BankAccountNo,NatInsuranceNo) FROM `DeliveryEmployee`"
                         + " WHERE DeliveryEmployeeID = " + id);
 
+
         while (rs.next()) {
-            return new EmployeeRequest(
+            return new Employee(
+                    rs.getInt("DeliveryEmployeeID"),
                     rs.getString("Name"),
                     rs.getFloat("Salary"),
                     rs.getString("BankAccountNo"),
