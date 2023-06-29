@@ -2,11 +2,7 @@ package org.kainos.ea.api;
 
 import org.kainos.ea.cli.Employee;
 import org.kainos.ea.cli.EmployeeRequest;
-import org.kainos.ea.client.EmployeeDoesNotExistException;
-import org.kainos.ea.client.FailedToCreateEmployeeException;
-import org.kainos.ea.client.FailedToUpdateEmployeeException;
-import org.kainos.ea.client.FailedToGetEmployeeException;
-import org.kainos.ea.client.InvalidEmployeeException;
+import org.kainos.ea.client.*;
 import org.kainos.ea.core.EmployeeValidator;
 import org.kainos.ea.db.EmployeeDao;
 import java.sql.SQLException;
@@ -61,8 +57,10 @@ public class EmployeeService {
             throw new FailedToUpdateEmployeeException();
         }
     }
+
           
           public Employee getEmployeeByID(int id) throws FailedToGetEmployeeException, EmployeeDoesNotExistException {
+
             try {
                 Employee employee = employeeDao.getEmployeeByID(id);
 
@@ -77,6 +75,24 @@ public class EmployeeService {
         }
                 
 
+
+    public void deleteEmployee(int id) throws EmployeeDoesNotExistException, FailedToDeleteEmployeeException {
+        try {
+            EmployeeRequest employeeToDelete = employeeDao.getEmployeeByID(id);
+
+            if(employeeToDelete == null) {
+                throw new EmployeeDoesNotExistException();
+            }
+
+            employeeDao.deleteDeliveryEmployee(id);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+
+            throw new FailedToDeleteEmployeeException();
+        }
+    }
+
+
     public List<EmployeeRequest> getAllEmployees() throws FailedToCreateEmployeeException {
         List<EmployeeRequest> employeeRequestList = null;
         try {
@@ -87,5 +103,6 @@ public class EmployeeService {
         employeeRequestList.stream().forEach(System.out::println);
         return employeeRequestList;
     }
+
 
 }
