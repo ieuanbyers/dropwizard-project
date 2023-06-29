@@ -1,5 +1,5 @@
 // Update
-package org.kainos.ea;
+package org.kainos.ea.db;
 
         import java.io.FileInputStream;
         import java.sql.*;
