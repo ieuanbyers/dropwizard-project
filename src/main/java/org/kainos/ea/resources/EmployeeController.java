@@ -12,7 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Api("Dropwizard Project - Employee API")
+@Api("Dropwizard Project - Delivery Employee API")
 @Path("/api")
 public class EmployeeController {
     private EmployeeService employeeService = new EmployeeService();
@@ -37,7 +37,7 @@ public class EmployeeController {
     @PUT
     @Path("/employees/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateProduct(@PathParam("id") int id, EmployeeRequest employee){
+    public Response updateEmployee(@PathParam("id") int id, EmployeeRequest employee){
         try{
             employeeService.updateDeliveryEmployee(id, employee);
 

@@ -54,7 +54,7 @@ public class EmployeeDao {
 
     }
 
-    public Employee getEmployeeByID(int id) throws SQLException {
+    public EmployeeRequest getEmployeeByID(int id) throws SQLException {
         Connection c = getConnection();
         Statement st = c.createStatement();
 
