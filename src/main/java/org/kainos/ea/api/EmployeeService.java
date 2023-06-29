@@ -2,7 +2,9 @@ package org.kainos.ea.api;
 
 import org.kainos.ea.cli.Employee;
 import org.kainos.ea.cli.EmployeeRequest;
+import org.kainos.ea.client.EmployeeDoesNotExistException;
 import org.kainos.ea.client.FailedToCreateEmployeeException;
+import org.kainos.ea.client.FailedToUpdateEmployeeException;
 import org.kainos.ea.client.FailedToGetEmployeeException;
 import org.kainos.ea.client.InvalidEmployeeException;
 import org.kainos.ea.core.EmployeeValidator;
@@ -38,7 +40,29 @@ public class EmployeeService {
         }
     }
 
-        public Employee getEmployeeByID(int id) throws FailedToGetEmployeeException, InvalidEmployeeException {
+    public void updateDeliveryEmployee(int id, EmployeeRequest employee) throws InvalidEmployeeException, EmployeeDoesNotExistException, FailedToUpdateEmployeeException {
+        try{
+            String validation = employeeValidator.isValidEmployee(employee);
+
+            if (validation != null){
+                throw new InvalidEmployeeException(validation);
+            }
+
+//            Employee employeeToUpdate = employeeDao.getEmployeeById(id);
+//
+//            if (employeeToUpdate == null){
+//                throw new EmployeeDoesNotExistException();
+//            }
+
+            employeeDao.updateDeliveryEmployee(id, employee);
+        } catch (SQLException e){
+            System.err.println(e.getMessage());
+
+            throw new FailedToUpdateEmployeeException();
+        }
+    }
+  
+    public Employee getEmployeeByID(int id) throws FailedToGetEmployeeException, InvalidEmployeeException {
             try {
                 Employee employee = employeeDao.getEmployeeByID(id);
 
@@ -50,12 +74,7 @@ public class EmployeeService {
                 System.err.println(e.getMessage());
                 throw new FailedToGetEmployeeException();
             }
-        }
-
-
-
-
-
+    }
 
 
 }
