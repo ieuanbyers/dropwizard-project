@@ -69,21 +69,7 @@ public class EmployeeService {
                 throw new FailedToGetEmployeeException();
             }
         }
-                  
-  
-    public Employee getEmployeeByID(int id) throws FailedToGetEmployeeException, InvalidEmployeeException {
-            try {
-                EmployeeRequest employeeRequest = employeeDao.getEmployeeByID(id);
-
-                if (employeeRequest == null) {
-                    throw new EmployeeDoesNotExistException();
-                }
-                return employeeRequest;
-            } catch (SQLException e){
-                System.err.println(e.getMessage());
-                throw new FailedToGetEmployeeException();
-            }
-        }
+                
 
     public List<EmployeeRequest> getAllEmployees() throws FailedToCreateEmployeeException {
         List<EmployeeRequest> employeeRequestList = null;
