@@ -1,6 +1,8 @@
 package org.kainos.ea.db;
 
+import org.kainos.ea.cli.Employee;
 import org.kainos.ea.cli.EmployeeRequest;
+import org.kainos.ea.cli.SalesEmployee;
 import org.kainos.ea.cli.SalesEmployeeRequest;
 
 import java.sql.*;
@@ -48,5 +50,28 @@ public class SalesEmployeeDao {
 
         st.executeUpdate();
 
+    }
+
+    public SalesEmployee getSalesEmployeeByID(int id) throws SQLException {
+        Connection c = getConnection();
+        Statement st = c.createStatement();
+
+       String selectStatement = "SELECT SalesEmployeeID, Name, Salary, BankAccountNo, NatInsuranceNo, CommissionRate FROM SalesEmployee WHERE SalesEmployeeID = " + id;
+
+       ResultSet rs = st.executeQuery(selectStatement);
+
+
+        while (rs.next()) {
+            return new SalesEmployee(
+                    rs.getInt("SalesEmployeeID"),
+                    rs.getString("Name"),
+                    rs.getFloat("Salary"),
+                    rs.getString("BankAccountNo"),
+                    rs.getString("NatInsuranceNo"),
+                    rs.getFloat("CommissionRate")
+            );
+
+        }
+        return null;
     }
 }
