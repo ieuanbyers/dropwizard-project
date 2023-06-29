@@ -1,7 +1,9 @@
 package org.kainos.ea.api;
 
+import org.kainos.ea.cli.EmployeeRequest;
 import org.kainos.ea.client.FailedToCreateEmployeeException;
 import org.kainos.ea.client.InvalidEmployeeException;
+import org.kainos.ea.core.EmployeeValidator;
 import org.kainos.ea.db.EmployeeDao;
 import java.sql.SQLException;
 
