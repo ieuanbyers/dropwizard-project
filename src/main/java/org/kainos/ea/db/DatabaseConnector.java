@@ -1,11 +1,11 @@
-// Update
+// Update Package
 package org.kainos.ea.db;
 
-        import java.io.FileInputStream;
-        import java.sql.*;
-        import java.util.ArrayList;
-        import java.util.List;
-        import java.util.Properties;
+import java.io.FileInputStream;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 
 public class DatabaseConnector {
@@ -37,7 +37,7 @@ public class DatabaseConnector {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
-            System.out.println("I will always run!");
+            conn.close();
         }
         return null;
     }
