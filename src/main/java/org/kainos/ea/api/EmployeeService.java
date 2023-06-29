@@ -78,7 +78,7 @@ public class EmployeeService {
 
     public void deleteEmployee(int id) throws EmployeeDoesNotExistException, FailedToDeleteEmployeeException {
         try {
-            EmployeeRequest employeeToDelete = employeeDao.getEmployeeByID(id);
+            Employee employeeToDelete = employeeDao.getEmployeeByID(id);
 
             if(employeeToDelete == null) {
                 throw new EmployeeDoesNotExistException();
