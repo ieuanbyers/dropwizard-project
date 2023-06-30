@@ -54,12 +54,11 @@ public class EmployeeDao {
 
     }
 
-    public EmployeeRequest getEmployeeByID(int id) throws SQLException {
+    public Employee getEmployeeByID(int id) throws SQLException {
         Connection c = getConnection();
         Statement st = c.createStatement();
 
-        ResultSet rs = st.executeQuery("SELECT (`Name`,Salary,BankAccountNo,NatInsuranceNo) FROM `DeliveryEmployee`"
-                        + " WHERE DeliveryEmployeeID = " + id);
+        ResultSet rs = st.executeQuery("SELECT DeliveryEmployeeID, Name, Salary, BankAccountNo, NatInsuranceNo FROM `DeliveryEmployee` WHERE DeliveryEmployeeID = " + id);
 
 
         while (rs.next()) {
@@ -92,7 +91,7 @@ public class EmployeeDao {
         Connection c = getConnection();
         Statement st = c.createStatement();
 
-        ResultSet rs = st.executeQuery("SELECT (Name,Salary,BankAccountNo,NatInsuranceNo) FROM DeliveryEmployee;");
+        ResultSet rs = st.executeQuery("SELECT Name, Salary, BankAccountNo, NatInsuranceNo FROM DeliveryEmployee;");
 
         List<EmployeeRequest> employeeList = new ArrayList<>();
 

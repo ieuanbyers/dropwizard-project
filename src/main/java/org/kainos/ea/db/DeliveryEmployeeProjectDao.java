@@ -13,8 +13,7 @@ public class DeliveryEmployeeProjectDao {
     public void removeEmployeeFromProject(int id, int projectID) throws SQLException {
         Connection c = getConnection();
 
-        String updateStatement = "UPDATE DeliveryEmployeeProject SET EndDate = NOW() WHERE DeliveryEmployeeID = ?"
-                +" WHERE ProjectID = ?;";
+        String updateStatement = "UPDATE DeliveryEmployeeProject SET EndDate = NOW() WHERE DeliveryEmployeeID = ? AND ProjectID = ?;";
 
         PreparedStatement st = c.prepareStatement(updateStatement);
 
